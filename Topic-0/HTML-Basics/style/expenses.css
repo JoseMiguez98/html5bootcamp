@@ -1,0 +1,16 @@
+/* I know it's not the best way to style an element (I'm not respecting good CSS practices),
+ it's just to visualize the table better */
+
+table, td, th {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+caption {
+    border: 1px solid black;
+    border-bottom: 0px;
+}
+
+td {
+    padding: 5px;
+}
