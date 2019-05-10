@@ -1,0 +1,74 @@
+<html lang="en">
+<head>
+    <title>sign-up-form</title>
+    <link rel="stylesheet" href="./style/form.css">
+</head>
+  <body>
+    <div class="main-container">
+        <form id="user-bio-form" action="">
+            <p>Fields with * are mandatory</p>
+            <fieldset>
+              <legend>Personal info</legend>
+                <ul>
+                  <li>
+                    <label for="first-name">First Name*</label>
+                    <input type="text" name="first-name" id="first-name" required>
+                  </li>
+                  <li>
+                    <label for="last-name">Last Name*</label>
+                    <input type="text" name="last-name" id="last-name"required>
+                  </li>
+                  <li>
+                    <label for="birthday">Birthday*</label>
+                    <input type="date" name="birthday" id="birthday">
+                  </li>
+                </ul>
+            </fieldset>
+        
+            <fieldset>
+                <legend>Contact info</legend>
+                <ul>
+                  <li>
+                    <label for="email">Mail*</label>
+                    <input type="email" name="email" id="email" required>
+                  </li>
+                </ul>
+            </fieldset>
+
+            <fieldset>
+                <legend>Preferences</legend>
+                <ul>
+                  <li>
+                    <label for="sport">Favourite Sport*</label>
+                    <select name="sport" id="sport" required>
+                      <option value="">Select a Sport</option>
+                      <option value="Football">Football</option>
+                      <option value="Volley">Volley</option>
+                      <option value="Baseball">Baseball</option>
+                      <option value="Rugby">Rugby</option>
+                      <option value="Golf">Golf</option>
+                    </select>
+                  </li>
+                </ul>
+            </fieldset>
+
+            <fieldset>
+                <legend>About you</legend>
+                <ul>
+                  <li>
+                    <label for="bio">Bio</label>
+                    <textarea name="bio" id="bio" cols="30" rows="10"></textarea>
+                  </li>
+                </ul>
+            </fieldset>
+            
+                <ul class="buttons-list">
+                  <li>
+                    <input type="submit" value="Enviar">
+                    <input type="reset" name="reset" id="reset">
+                  </li>
+                </ul>
+        </form>
+    </div>  
+  </body>
+</html>
