@@ -1,0 +1,46 @@
+.container {
+    margin: auto;
+    width: 900px;
+    height: 600px;
+    padding-left: 10px;
+    padding-right: 10px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+header, section, aside, footer, nav, article {
+    border: 1px solid red;
+}
+
+header, footer {
+    width: 880px;
+    height: 130px;
+}
+
+aside, nav {
+    width: 250px;
+}
+
+aside, nav, .container > section {
+    height: 300px;
+}
+
+.container > section {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    width: 350px;
+}
+
+.container > section > header, .container > section > footer {
+    height: 50px;
+}
+
+.container > section > header, .container > section > footer, .container > section > article{
+    width: 300px;
+}
+
+.container > section > article {
+    height: 100px;
+}
