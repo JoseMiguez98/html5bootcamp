@@ -1,8 +1,3 @@
-body {
-    font-family: 'Lato', sans-serif;
-    font-size: 14px;
-}
-
 * {
     border-width: 1px;
     border-color: #777;
@@ -65,4 +60,31 @@ body {
 
 .container > * {
     background-color: #333;
+}
+
+/* 
+================================================
+                 TYPOGRAPHY
+================================================
+*/
+
+body {
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+}
+
+.header {
+    font-size: 46px;
+}
+
+.footer, .sidebar {
+    font-size: 10px;
+}
+
+.content {
+    font-size: 14px;
+}
+
+.navigation {
+    font-size: 12px;
 }
