@@ -13,6 +13,7 @@
     -moz-border-radius: 10px;
     -ms-border-radius: 10px;
     -o-border-radius: 10px;
+    box-sizing: border-box;
 }
 
 .container {
@@ -78,10 +79,6 @@
     display: inline-block;
     vertical-align: middle;
     margin: 5px;
-}
-
-.containter, .container  * {
-    box-sizing: border-box;
 }
 
 .content > * {
