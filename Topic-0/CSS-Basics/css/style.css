@@ -1,5 +1,12 @@
+/* 
+================================================
+                 Layout
+================================================
+*/
+
 * {
     border-width: 1px;
+    border-style: solid;
     border-color: #777;
     border-radius: 10px;
     -webkit-border-radius: 10px;
@@ -87,4 +94,18 @@ body {
 
 .navigation {
     font-size: 12px;
+}
+
+/* 
+================================================
+                 APPEARANCE
+================================================
+*/
+
+* [class$= "r"] {
+    background-color: #f0f;
+}
+
+* [class*="a"]:not([class$= "r"]) {
+    background-color: green; 
 }
