@@ -28,44 +28,41 @@ body {
     color: #fff;
 }
 
-header, footer {
+.header, .content-header, .footer {
     width: 880px;
     height: 130px;
     text-align: center;
 }
 
-aside, nav {
+.sidebar, .navigation {
     width: 250px;
 }
 
-aside, nav, .container > section {
+.sidebar, .navigation, .content {
     height: 300px;
 }
 
-.container > section {
+.content {
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
     width: 350px;
 }
 
-.container > section > * {
+.content > * {
+    background-color: #555;
     width: 300px;
 }
 
-.container > section > *:not(aside) {
+.content > *:not(aside) {
     height: 50px;
 }
 
 
-.container > section > article {
+.content > article {
     height: 100px;
 }
 
 .container > * {
     background-color: #333;
-}
-
-.container > section > * {
-    background-color: #555;
 }
