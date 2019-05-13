@@ -69,6 +69,15 @@
     background-color: #333;
 }
 
+.container,
+.header,
+.navigation,
+.content > *,
+.sidebar,
+.footer {
+    box-sizing: border-box;
+}
+
 /* 
 ================================================
                  TYPOGRAPHY
