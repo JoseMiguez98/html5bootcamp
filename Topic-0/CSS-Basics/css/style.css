@@ -1,16 +1,26 @@
+* {
+    border-width: 1px;
+    border-color: #777;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
+
 .container {
-    margin: auto;
     width: 900px;
     height: 600px;
+    margin: auto;
+    margin-top: 10px;
     padding-left: 10px;
     padding-right: 10px;
+    padding-top: 10px;
     display: flex;
     flex-flow: row wrap;
     justify-content: space-around;
-}
-
-header, section, aside, footer, nav, article {
-    border: 1px solid red;
+    background-color: #000;
+    color: #fff;
 }
 
 header, footer {
@@ -33,14 +43,23 @@ aside, nav, .container > section {
     width: 350px;
 }
 
-.container > section > header, .container > section > footer {
-    height: 50px;
-}
-
-.container > section > header, .container > section > footer, .container > section > article{
+.container > section > * {
     width: 300px;
 }
 
+.container > section > *:not(aside) {
+    height: 50px;
+}
+
+
 .container > section > article {
     height: 100px;
+}
+
+.container > * {
+    background-color: #333;
+}
+
+.container > section > * {
+    background-color: #555;
 }
