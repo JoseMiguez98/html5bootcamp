@@ -7,7 +7,6 @@
 
 .container {
     margin: 0 auto;
-    max-width: 48rem;
     width: 90%;
   }
 
@@ -29,13 +28,28 @@
     float: left;
     padding-right: 5px;
   }
-  
-.column.full { width: 100%; }
-.column.two-thirds { width: 66.7%; }
-.column.half { width: 50%; }
-.column.third { width: 33.3%; }
-.column.fourth { width: 25%; }
-.column.flow-opposite { float: right; }
+
+/* SmartPhones */
+@media only screen and (min-device-width : 320px) {
+    .column.full { width: 100%; }
+}
+
+/* Tablets */
+@media only screen and (min-device-width : 768px) {
+    .column.half { width: 50%; }
+}
+
+/* Desktops and laptops */
+@media only screen  and (min-width : 1224px) {
+    .column.two-thirds { width: 66.7%; }
+    .column.third { width: 33.3%; }
+}
+
+/* Large screens */
+@media only screen  and (min-width : 1824px) {
+    .column.fourth { width: 25%; }
+    .column.flow-opposite { float: right; }
+}
 
 img {
     max-width: 100%;
