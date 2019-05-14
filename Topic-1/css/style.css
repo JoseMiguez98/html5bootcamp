@@ -8,6 +8,6 @@ section {
     text-align: center;
 }
 
-.section.hidden {
+.hidden {
      display: none;
 }
