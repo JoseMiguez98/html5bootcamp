@@ -7,3 +7,7 @@
 section {
     text-align: center;
 }
+
+.section.hidden {
+     display: none;
+}
