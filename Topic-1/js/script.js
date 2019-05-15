@@ -26,7 +26,5 @@ window.onload = function() {
     let buttonElem = document.querySelector(".button.alert")
 
     sectionElem.classList.remove("hidden");
-    buttonElem.addEventListener("click", showMessage);
-
-    fetchData();
+    buttonElem.addEventListener("click", fetchData);
 }
