@@ -2,10 +2,6 @@
 
 window.onload = function() {
 
-    function showMessage(){
-        alert("Hi you clicked the button!");
-    }
-
     function fetchData() {
         let xhr = new XMLHttpRequest();
         xhr.open("GET", "http://api.icndb.com/jokes/random");
@@ -14,17 +10,21 @@ window.onload = function() {
         
         xhr.onload = function () {
             if (xhr.readyState === xhr.DONE && xhr.status === 200) {
-                console.log(xhr.response);
+                let section = document.getElementsByClassName("section")[0];
+                let h2Elem = document.createElement("p");
+                let response = document.createTextNode(xhr.response.value.joke);
+                h2Elem.appendChild(response);
+                section.appendChild(h2Elem); 
             }
             else {
-                console.log(`${xhr.status}: ${xhr.statusText} ${xhr.response}`)
+                console.log(`${xhr.status}: ${xhr.statusText} ${xhr.response}`);
             }
         }
     }
 
     let sectionElem = document.querySelector(".section.hidden");
-    let buttonElem = document.querySelector(".button.alert")
+    let buttonElem = document.querySelector(".button.alert");
 
     sectionElem.classList.remove("hidden");
-    buttonElem.addEventListener("click", fetchData);
+    buttonElem.addEventListener("click", fetchData)
 }
