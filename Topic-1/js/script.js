@@ -30,6 +30,8 @@ window.onload = function() {
 
     function getJoke() {
         let promise = fetchDataGeneric(fetchConfig);
+        let paragraphElem = document.createElement("p");
+
         promise.then( (response) => {
             if(!response.ok){
                 console.log(Error(response.statusText));
@@ -37,13 +39,23 @@ window.onload = function() {
             }
             return response.json();
         }).then( (jsonResponse) => {
-            let paragraphElem = document.createElement("p");
             let response = document.createTextNode(jsonResponse.value.joke);
             paragraphElem.appendChild(response);
-            console.log(sectionElem);
-            sectionElem.appendChild(paragraphElem); 
-        }).catch( (err) => {
-            console.log(err);
+
+            if(sectionElem.classList.contains("error")) {
+                sectionElem.classList.remove("error");
+            }
+
+        }).catch( () => {
+            let errorMessage = document.createTextNode("An error occurred, please try again later");
+            paragraphElem.appendChild(errorMessage);
+
+            if(!sectionElem.classList.contains("error")) {
+                sectionElem.classList.add("error");
+            }
+
+        }).finally( () => {
+            sectionElem.appendChild(paragraphElem);
         });
     }
 
