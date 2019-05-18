@@ -34,7 +34,7 @@ window.onload = function() {
         });
     }
 
-    function getJoke(fetchConfig) {
+    function getJoke( fetchConfig ) {
         let promise = fetchDataGeneric(fetchConfig);
         let paragraphElem = document.createElement("p");
 
@@ -58,6 +58,36 @@ window.onload = function() {
         });
     }
 
+    function fetchRepos(query) {
+        /*
+        Consider the case of using string literals of ES6,
+         but after doing a test in jsperf (https://jsperf.com/es6-string-literals-vs-string-concatenation)
+        I saw that the concatenation of strings is faster
+        */
+        let url = "https://api.github.com/search/repositories?q=" + query;
+        let config = {
+            url,
+            method: "GET" 
+        };
+        let reposList = document.getElementsByClassName("repos-list")[0];
+        let i;
+
+        fetchDataGeneric(config).then( (response) => {
+            for(i = 0 ; i < 10 ; i++) {
+                let liElem = document.createElement("li");
+                let anchorElem = document.createElement("a");
+                let paragraphElem = document.createElement("p");
+                anchorElem.setAttribute("href", response.items[i].html_url);
+                anchorElem.appendChild(document.createTextNode(response.items[i].name));
+                paragraphElem.appendChild(document.createTextNode(response.items[i].description));
+                paragraphElem.setAttribute("class", "repo-description");
+                liElem.appendChild(anchorElem);
+                liElem.appendChild(paragraphElem);
+                reposList.appendChild(liElem);
+            }
+        });
+    }
+
     let sectionElem = document.querySelector(".section.hidden");
     let buttonElem = document.querySelector(".button.alert");
     let fetchConfig = {
@@ -69,4 +99,6 @@ window.onload = function() {
     buttonElem.addEventListener("click", () => {
         getJoke(fetchConfig);
     });
+
+    fetchRepos("javascript");
 }
