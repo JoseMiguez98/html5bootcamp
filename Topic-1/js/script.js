@@ -8,7 +8,7 @@ window.onload = function() {
         xhr.responseType = "json";
         xhr.send();
         
-        xhr.onload = function () {
+        xhr.onload = () => {
             if (xhr.readyState === xhr.DONE && xhr.status === 200) {
                 let paragraphElem = document.createElement("p");
                 let response = document.createTextNode(xhr.response.value.joke);
@@ -25,37 +25,36 @@ window.onload = function() {
         return fetch(config.url, {
             method: config.method,
             headers: config.headers ? config.headers : Headers,
-        });
-    }
-
-    function getJoke() {
-        let promise = fetchDataGeneric(fetchConfig);
-        let paragraphElem = document.createElement("p");
-
-        promise.then( (response) => {
+        }).then( (response) => {
             if(!response.ok){
-                console.log(Error(response.statusText));
+                console.error(response.statusText);
                 throw Error;
             }
             return response.json();
-        }).then( (jsonResponse) => {
+        });
+    }
+
+    function getJoke(fetchConfig) {
+        let promise = fetchDataGeneric(fetchConfig);
+        let paragraphElem = document.createElement("p");
+
+        promise.then( (jsonResponse) => {
             let response = document.createTextNode(jsonResponse.value.joke);
             paragraphElem.appendChild(response);
+            sectionElem.appendChild(paragraphElem);
 
             if(sectionElem.classList.contains("error")) {
                 sectionElem.classList.remove("error");
             }
 
         }).catch( () => {
-            let errorMessage = document.createTextNode("An error occurred, please try again later");
-            paragraphElem.appendChild(errorMessage);
+            paragraphElem.appendChild(document.createTextNode("An error occurred, please try again later"));
+            sectionElem.appendChild(paragraphElem);
 
             if(!sectionElem.classList.contains("error")) {
                 sectionElem.classList.add("error");
             }
 
-        }).finally( () => {
-            sectionElem.appendChild(paragraphElem);
         });
     }
 
@@ -66,8 +65,8 @@ window.onload = function() {
         method: "GET"
     };
 
-    sectionElem.classList.remove("hidden");
+    sectionElem.classList.replace("hidden", "show");
     buttonElem.addEventListener("click", () => {
-        getJoke();
+        getJoke(fetchConfig);
     });
 }
