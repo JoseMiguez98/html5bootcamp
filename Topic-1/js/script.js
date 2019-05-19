@@ -59,48 +59,56 @@ window.onload = function() {
     }
     
     function fetchRepos(query) {
-        /*
-        Consider the case of using string literals of ES6,
-        but after doing a test in jsperf (https://jsperf.com/es6-string-literals-vs-string-concatenation)
-        I saw that the concatenation of strings is faster
-        */
-        let url = "https://api.github.com/search/repositories?q=" + query;
-        let config = {
-            url,
-            method: "GET" 
-        };
-        let reposList = document.getElementsByClassName("repos-list")[0];
-        let i;
-        
-        while(reposList.firstChild) {
-            reposList.removeChild(reposList.firstChild);
-        }
-        
-        fetchDataGeneric(config).then( (response) => {
-            if(response.total_count != 0){
-                for(i = 0 ; i < 10 ; i++) {
-                    let liElem = document.createElement("li");
-                    let anchorElem = document.createElement("a");
-                    let paragraphElem = document.createElement("p");
-                    anchorElem.setAttribute("href", response.items[i].html_url);
-                    anchorElem.setAttribute("target", "_blank");
-                    anchorElem.appendChild(document.createTextNode(response.items[i].name));
-                    paragraphElem.appendChild(document.createTextNode(response.items[i].description));
-                    liElem.appendChild(anchorElem);
-                    liElem.appendChild(paragraphElem);
-                    reposList.appendChild(liElem);
-                }
-            } else {
-                reposList.appendChild(document.createTextNode("The search does not return results"));
-            }
+        if(query.trim().length != 0) {
+            /*
+            Consider the case of using string literals of ES6,
+            but after doing a test in jsperf (https://jsperf.com/es6-string-literals-vs-string-concatenation)
+            I saw that the concatenation of strings is faster
+            */
+            let url = "https://api.github.com/search/repositories?q=" + query;
+            let config = {
+                url,
+                method: "GET" 
+            };
+            let reposList = document.getElementsByClassName("repos-list")[0];
+            let i;
             
-        }).catch( () => {
-            reposList.appendChild(document.createTextNode("An error occurred, please try again later"));
-        });
+            while(reposList.firstChild) {
+                reposList.removeChild(reposList.firstChild);
+            }
+
+            document.getElementsByClassName("repos-list-header")[0].classList.replace(
+                "hidden","show"
+            );
+            
+            fetchDataGeneric(config).then( (response) => {
+                if(response.total_count != 0){
+                    for(i = 0 ; i < 10 ; i++) {
+                        let liElem = document.createElement("li");
+                        let anchorElem = document.createElement("a");
+                        let paragraphElem = document.createElement("p");
+                        anchorElem.setAttribute("href", response.items[i].html_url);
+                        anchorElem.setAttribute("target", "_blank");
+                        anchorElem.appendChild(document.createTextNode(response.items[i].name));
+                        paragraphElem.appendChild(document.createTextNode(response.items[i].description));
+                        liElem.appendChild(anchorElem);
+                        liElem.appendChild(paragraphElem);
+                        reposList.appendChild(liElem);
+                    }
+                } else {
+                    reposList.appendChild(document.createTextNode("The search does not return results"));
+                }
+
+            }).catch( () => {
+                reposList.appendChild(document.createTextNode("An error occurred, please try again later"));
+            });
+        } else {
+            alert("Type something!");
+        }
     }
     
     let sectionElem = document.getElementsByClassName("section hidden")[0];
-    let buttonJokeElem = document.getElementsByClassName("button alert")[0];
+    let buttonJokeElem = document.getElementsByClassName("button joke")[0];
     let buttonSearchElem = document.getElementsByClassName("button search")[0];
     let searchFieldElem = document.getElementById("repos-search-field");
     let fetchConfig = {

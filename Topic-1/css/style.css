@@ -34,3 +34,7 @@ section {
 .error {
     color: #e00;
 }
+
+iframe {
+    border: none;
+}
