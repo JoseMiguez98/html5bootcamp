@@ -1,7 +1,7 @@
 "use strict";
 
 window.onload = function() {
-
+    
     function fetchData() {
         let xhr = new XMLHttpRequest();
         xhr.open("GET", "http://api.icndb.com/jokes/random");
@@ -20,7 +20,7 @@ window.onload = function() {
             }
         }
     }
-
+    
     function fetchDataGeneric(config) {
         return fetch(config.url, {
             method: config.method,
@@ -33,35 +33,35 @@ window.onload = function() {
             return response.json();
         });
     }
-
+    
     function getJoke( fetchConfig ) {
         let promise = fetchDataGeneric(fetchConfig);
         let paragraphElem = document.createElement("p");
-
+        
         promise.then( (jsonResponse) => {
             let response = document.createTextNode(jsonResponse.value.joke);
             paragraphElem.appendChild(response);
             sectionElem.appendChild(paragraphElem);
-
+            
             if(sectionElem.classList.contains("error")) {
                 sectionElem.classList.remove("error");
             }
-
+            
         }).catch( () => {
             paragraphElem.appendChild(document.createTextNode("An error occurred, please try again later"));
             sectionElem.appendChild(paragraphElem);
-
+            
             if(!sectionElem.classList.contains("error")) {
                 sectionElem.classList.add("error");
             }
-
+            
         });
     }
-
+    
     function fetchRepos(query) {
         /*
         Consider the case of using string literals of ES6,
-         but after doing a test in jsperf (https://jsperf.com/es6-string-literals-vs-string-concatenation)
+        but after doing a test in jsperf (https://jsperf.com/es6-string-literals-vs-string-concatenation)
         I saw that the concatenation of strings is faster
         */
         let url = "https://api.github.com/search/repositories?q=" + query;
@@ -71,34 +71,55 @@ window.onload = function() {
         };
         let reposList = document.getElementsByClassName("repos-list")[0];
         let i;
-
+        
+        while(reposList.firstChild) {
+            reposList.removeChild(reposList.firstChild);
+        }
+        
         fetchDataGeneric(config).then( (response) => {
-            for(i = 0 ; i < 10 ; i++) {
-                let liElem = document.createElement("li");
-                let anchorElem = document.createElement("a");
-                let paragraphElem = document.createElement("p");
-                anchorElem.setAttribute("href", response.items[i].html_url);
-                anchorElem.appendChild(document.createTextNode(response.items[i].name));
-                paragraphElem.appendChild(document.createTextNode(response.items[i].description));
-                paragraphElem.setAttribute("class", "repo-description");
-                liElem.appendChild(anchorElem);
-                liElem.appendChild(paragraphElem);
-                reposList.appendChild(liElem);
+            if(response.total_count != 0){
+                for(i = 0 ; i < 10 ; i++) {
+                    let liElem = document.createElement("li");
+                    let anchorElem = document.createElement("a");
+                    let paragraphElem = document.createElement("p");
+                    anchorElem.setAttribute("href", response.items[i].html_url);
+                    anchorElem.setAttribute("target", "_blank");
+                    anchorElem.appendChild(document.createTextNode(response.items[i].name));
+                    paragraphElem.appendChild(document.createTextNode(response.items[i].description));
+                    liElem.appendChild(anchorElem);
+                    liElem.appendChild(paragraphElem);
+                    reposList.appendChild(liElem);
+                }
+            } else {
+                reposList.appendChild(document.createTextNode("The search does not return results"));
             }
+            
+        }).catch( () => {
+            reposList.appendChild(document.createTextNode("An error occurred, please try again later"));
         });
     }
-
-    let sectionElem = document.querySelector(".section.hidden");
-    let buttonElem = document.querySelector(".button.alert");
+    
+    let sectionElem = document.getElementsByClassName("section hidden")[0];
+    let buttonJokeElem = document.getElementsByClassName("button alert")[0];
+    let buttonSearchElem = document.getElementsByClassName("button search")[0];
+    let searchFieldElem = document.getElementById("repos-search-field");
     let fetchConfig = {
         url: "http://api.icndb.com/jokes/random",
         method: "GET"
     };
-
+    
     sectionElem.classList.replace("hidden", "show");
-    buttonElem.addEventListener("click", () => {
+    
+    searchFieldElem.addEventListener("keyup", (e) => {
+        if(e.keyCode === 13) {
+            buttonSearchElem.click();
+        }
+    });
+    buttonJokeElem.addEventListener("click", () => {
         getJoke(fetchConfig);
     });
-
-    fetchRepos("javascript");
+    buttonSearchElem.addEventListener("click", () => {
+        let query = searchFieldElem.value;
+        fetchRepos(query);
+    });
 }
