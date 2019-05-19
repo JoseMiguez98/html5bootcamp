@@ -6,12 +6,8 @@
     justify-content: space-around;
 }
 
-.repos-list {
-    list-style-type: none;
-}
-
-.git-repos-container {
-    width: 500px;
+iframe {
+    border: none;
 }
 
 section {
@@ -22,6 +18,15 @@ section {
     -ms-transition: opacity 2s;
     -o-transition: opacity 2s;
 }
+
+.git-repos-container {
+    width: 500px;
+}
+
+.repos-list {
+    list-style-type: none;
+}
+
 
 .hidden {
     opacity: 0;
@@ -35,6 +40,14 @@ section {
     color: #e00;
 }
 
-iframe {
-    border: none;
+.table.generic-data {
+    width: 500px;
+    border: 1px;
+    border-style: dotted;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    padding: 8px;
 }

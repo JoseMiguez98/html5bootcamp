@@ -18,7 +18,7 @@ window.onload = function() {
             else {
                 console.log(`${xhr.status}: ${xhr.statusText} ${xhr.response}`);
             }
-        }
+        };
     }
     
     function fetchDataGeneric(config) {
@@ -71,7 +71,6 @@ window.onload = function() {
                 method: "GET" 
             };
             let reposList = document.getElementsByClassName("repos-list")[0];
-            let i;
             
             while(reposList.firstChild) {
                 reposList.removeChild(reposList.firstChild);
@@ -83,7 +82,7 @@ window.onload = function() {
             
             fetchDataGeneric(config).then( (response) => {
                 if(response.total_count != 0){
-                    for(i = 0 ; i < 10 ; i++) {
+                    for(let i = 0 ; i < 10 ; i++) {
                         let liElem = document.createElement("li");
                         let anchorElem = document.createElement("a");
                         let paragraphElem = document.createElement("p");
@@ -106,15 +105,69 @@ window.onload = function() {
             alert("Type something!");
         }
     }
+
+    function generateTable(matrix, caption) {
+        let tableElem = document.createElement("table");
+        let tableCaptionElem = document.createElement("caption");
+        let tableHeaderElem = document.createElement("thead");
+        let tableBodyElem = document.createElement("tbody");
+        let numberOfRows = matrix.length;
+        let numberOfColumns = matrix[0].length;
+        tableCaptionElem.appendChild(document.createTextNode(caption));
+        tableElem.appendChild(tableCaptionElem);
+        tableElem.appendChild(tableHeaderElem);
+        tableElem.appendChild(tableBodyElem);
+
+        for(let i = 0 ; i < numberOfRows ; i++) {
+            let tableRowElem = document.createElement("tr");
+            let header = i === 0 ? true : false;
+
+            for(let j = 0 ; j< numberOfColumns ; j++) {
+                let tableDataElem;
+                if( header ) {
+                    tableDataElem = document.createElement("th");
+                    tableDataElem.setAttribute("scope", "col");
+                } else {
+                    if(j === 0) {
+                        tableDataElem = document.createElement("th");
+                        tableDataElem.setAttribute("scope", "row");
+                    } else {
+                        tableDataElem = document.createElement("td");
+                    }
+                }
+                tableDataElem.appendChild(document.createTextNode(matrix[i][j]));
+                tableRowElem.appendChild(tableDataElem);
+            }
+
+            if( header ) {
+                tableHeaderElem.appendChild(tableRowElem);
+            } else {
+                tableBodyElem.appendChild(tableRowElem);
+            }
+        }
+
+        return tableElem;
+    }
     
     let sectionElem = document.getElementsByClassName("section hidden")[0];
     let buttonJokeElem = document.getElementsByClassName("button joke")[0];
     let buttonSearchElem = document.getElementsByClassName("button search")[0];
     let searchFieldElem = document.getElementById("repos-search-field");
+    let tableContainer = document.getElementsByClassName("table generic-data")[0];
+    let matrixData = [
+        ["Country","Population","Official Coin","Native Lang/s"],
+        ["Argentina","44.27 Million","Argentine Peso","Spanish"],
+        ["United States","327.2 Millon","United States Dollar","English"],
+        ["Canada","37,06 Million","Canadian Dollar","English / French"],
+        ["France","66.99 Million","Euro","French"]
+    ];
     let fetchConfig = {
         url: "http://api.icndb.com/jokes/random",
         method: "GET"
     };
+    let countriesTable = generateTable(matrixData, "Countries data");
+
+    tableContainer.appendChild(countriesTable);
     
     sectionElem.classList.replace("hidden", "show");
     
@@ -130,4 +183,4 @@ window.onload = function() {
         let query = searchFieldElem.value;
         fetchRepos(query);
     });
-}
+};
