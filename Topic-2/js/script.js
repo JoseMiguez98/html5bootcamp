@@ -1,34 +1,5 @@
 "use strict";
 
-class Movie {
-    
-    constructor(title, year, duration){
-        this.title = title;
-        this.year = year;
-        this.duration = duration;
-    }
-    
-    play() {
-        console.log("Playing " + this.title + "...");
-    }
-    
-    pause() {
-        console.log(this.title + " paused...");
-    }
-    
-    resume() {
-        console.log(this.title + " resumed...");
-    }
-}
-
-class Actor {
-    
-    constructor(name, age){
-        this.name = name;
-        this.age = age;
-    }
-}
-
 class EventEmitter {
     
     constructor() {
@@ -56,6 +27,7 @@ class EventEmitter {
             });
             return true;
         }
+        console.error("Theres no listener for "+event+" event")
         return false;
     }
 
@@ -76,21 +48,56 @@ class EventEmitter {
     }
 }
 
+
+class Movie extends EventEmitter {
+    
+    constructor(title, year, duration){
+        super();
+        this.title = title;
+        this.year = year;
+        this.duration = duration;
+    }    
+    
+    play() {
+        this.emit("play", this);
+    }    
+    
+    pause() {
+        this.emit("pause", this);
+    }    
+    
+    resume() {
+        this.emit("resume", this);
+    }    
+}    
+
+class Actor {
+    
+    constructor(name, age){
+        this.name = name;
+        this.age = age;
+    }    
+}    
+
 window.onload = function() {
     //Movie duration is expressed in minutes
     let limitless = new Movie("Limitless", 2011, 105);
     let goodfellas = new Movie("Goodfellas", 1990, 148);
     let backToTheFuture = new Movie("Back to the future", 1985, 116);
 
+    limitless.on("play", movie => {
+        console.log("Playing event triggered on " + movie[0].title);
+    });
+    
+    backToTheFuture.on("pause", movie => {
+        console.log("Pause event triggered on " + movie[0].title);
+    });
+
+    goodfellas.on("resume", movie => {
+        console.log("Resume event triggered on " + movie[0].title);
+    });
+
     limitless.play();
-    limitless.pause();
-    limitless.resume();
-    
-    goodfellas.play();
-    goodfellas.pause();
-    goodfellas.resume();
-    
-    backToTheFuture.play();
     backToTheFuture.pause();
-    backToTheFuture.resume();
+    goodfellas.resume();
 }
