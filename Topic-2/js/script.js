@@ -27,27 +27,31 @@ class EventEmitter {
             });
             return true;
         }
-        console.error("Theres no listener for "+event+" event")
+        console.error("There is no listener for "+event+" event")
         return false;
     }
 
-    //Consider all the methods to remove element from array
-    //and i think that in this case iterate with a for loop and
-    //doing an array.splice() is the best way.
+    /*Consider all the methods to remove element from array
+    *and i think that in this case iterate with a for loop and
+    doing an array.splice() is the best way.*/
     off(event, callback) {
         let eventListeners = this.listeners[event];
-        if(eventListeners && eventListeners[event].includes(callback)) {
+        if(eventListeners) {
             for(let i = 0; i<eventListeners.length ; i++){
                 if(eventListeners[i] === callback){
                     eventListeners.splice(i,1);
                 }
             }
+            
+            if(!eventListeners.length) {
+                delete this.listeners[event];
+            }
+
             return true;
         }
         return false;   
     }
 }
-
 
 class Movie extends EventEmitter {
     
@@ -80,6 +84,11 @@ class Actor {
 }    
 
 window.onload = function() {
+
+    function handleResume(args) {
+        console.log("Resume event triggered on " + args[0].title);
+    }
+
     //Movie duration is expressed in minutes
     let limitless = new Movie("Limitless", 2011, 105);
     let goodfellas = new Movie("Goodfellas", 1990, 148);
@@ -93,11 +102,11 @@ window.onload = function() {
         console.log("Pause event triggered on " + movie[0].title);
     });
 
-    goodfellas.on("resume", movie => {
-        console.log("Resume event triggered on " + movie[0].title);
-    });
+    goodfellas.on("resume", handleResume);
 
     limitless.play();
     backToTheFuture.pause();
+    goodfellas.resume();
+    goodfellas.off("resume", handleResume);
     goodfellas.resume();
 }
