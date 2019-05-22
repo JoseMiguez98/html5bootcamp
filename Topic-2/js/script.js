@@ -60,6 +60,7 @@ class Movie extends EventEmitter {
         this.title = title;
         this.year = year;
         this.duration = duration;
+        this.cast = [];
     }    
     
     play() {
@@ -72,7 +73,26 @@ class Movie extends EventEmitter {
     
     resume() {
         this.emit("resume", this);
-    }    
+    }
+    
+    addCast(...newCast){
+        if(newCast.length) {
+            newCast.forEach(element => {
+                if(element instanceof Array) {
+                    /*Control that only Actors instances and no repeated
+                      will be copied*/
+                    let validCast = element.filter(actor => {
+                        return actor instanceof Actor && !this.cast.includes(actor);
+                    });
+                    this.cast = this.cast.concat(validCast);
+                } else if (element instanceof Actor && !this.cast.includes(element)) {
+                    this.cast.push(element);
+                }
+            });
+            return true;
+        }
+        return false;
+    }
 }    
 
 class Actor {
@@ -93,6 +113,22 @@ window.onload = function() {
     let limitless = new Movie("Limitless", 2011, 105);
     let goodfellas = new Movie("Goodfellas", 1990, 148);
     let backToTheFuture = new Movie("Back to the future", 1985, 116);
+    
+    let bradleyCooper = new Actor("Bradley Cooper", 44);
+    let robertDeNiro = new Actor("Robert De Niro", 75);
+    let abbieCornish = new Actor("Abbie Cornish", 36);
+
+    let goodfellasCast = [
+        new Actor("Joe Pesci", 76),
+        new Actor("Ray Liotta", 64),
+        robertDeNiro
+    ];
+      
+    let backToTheFutureCast = [
+        new Actor("Michael Fox", 57),
+        new Actor("Christopher Lloyd", 80),
+        new Actor("Thomas Wilson", 60)
+    ];
 
     limitless.on("play", movie => {
         console.log("Playing event triggered on " + movie[0].title);
@@ -104,6 +140,20 @@ window.onload = function() {
 
     goodfellas.on("resume", handleResume);
 
+    //Differents addCast() cases
+
+    //Adding actors individually
+    limitless.addCast(bradleyCooper);
+    limitless.addCast(robertDeNiro, abbieCornish);
+
+    //Adding actors with array
+    goodfellas.addCast(goodfellasCast);
+
+    /*Adding actors with array and individually
+    PD: I know that bradley cooper isn't in back to the future :)*/
+    backToTheFuture.addCast(backToTheFutureCast, bradleyCooper);
+
+    //Events tests
     limitless.play();
     backToTheFuture.pause();
     goodfellas.resume();
