@@ -13,22 +13,22 @@ class EventEmitter {
             } else{
                 this.listeners[event].push(callback);
             }
-            return true;
         }
-        console.error("Callback must be a function!");
-        return false;
+        else {
+            console.error("Callback must be a function!");
+        }
     }
     
-    emit(event, ...args) {
+    emit(event) {
         if(this.listeners[event]) {
             let eventListeners = this.listeners[event];
             eventListeners.forEach(listener => {
-                args.length ? listener(args) : listener();
+                listener();
             });
-            return true;
         }
-        console.error("There is no listener for "+event+" event")
-        return false;
+        else {
+            console.error("There is no listener for " + event + " event");
+        }
     }
 
     /*Consider all the methods to remove element from array
@@ -46,10 +46,7 @@ class EventEmitter {
             if(!eventListeners.length) {
                 delete this.listeners[event];
             }
-
-            return true;
-        }
-        return false;   
+        }   
     }
 }
 
@@ -61,22 +58,44 @@ class Movie extends EventEmitter {
         this.year = year;
         this.duration = duration;
         this.cast = [];
-    }    
+
+        this.handlePlay = this.handlePlay.bind(this);
+        this.handlePause = this.handlePause.bind(this);
+        this.handleResume = this.handleResume.bind(this);
+
+        this.on("play", this.handlePlay);
+        this.on("pause", this.handlePause);   
+        this.on("resume", this.handleResume);
+    } 
     
     play() {
-        this.emit("play", this);
+        this.emit("play");
     }    
     
     pause() {
-        this.emit("pause", this);
+        this.emit("pause");
     }    
     
     resume() {
-        this.emit("resume", this);
+        this.emit("resume");
     }
     
-    addCast(...newCast){
-        if(newCast.length) {
+    handlePlay() {
+        console.log("Playing " + this.title);
+    }
+
+    handlePause() {
+        console.log("Paused " + this.title);
+     }
+
+    handleResume() {
+        console.log("Resumed " + this.title);
+    }
+    
+    addCast(newCast) {
+        if(newCast instanceof Actor){
+            this.cast.push(newCast);
+        } else if(newCast instanceof Array && newCast.length) {
             newCast.forEach(element => {
                 if(element instanceof Array) {
                     /*Control that only Actors instances and no repeated
@@ -89,9 +108,7 @@ class Movie extends EventEmitter {
                     this.cast.push(element);
                 }
             });
-            return true;
         }
-        return false;
     }
 }    
 
@@ -100,14 +117,19 @@ class Actor {
     constructor(name, age){
         this.name = name;
         this.age = age;
-    }    
-}    
+    }
+
+}   
+
+class Log {
+    constructor(){};
+
+    log(info){
+
+    }
+}
 
 window.onload = function() {
-
-    function handleResume(args) {
-        console.log("Resume event triggered on " + args[0].title);
-    }
 
     //Movie duration is expressed in minutes
     let limitless = new Movie("Limitless", 2011, 105);
@@ -130,21 +152,13 @@ window.onload = function() {
         new Actor("Thomas Wilson", 60)
     ];
 
-    limitless.on("play", movie => {
-        console.log("Playing event triggered on " + movie[0].title);
-    });
     
-    backToTheFuture.on("pause", movie => {
-        console.log("Pause event triggered on " + movie[0].title);
-    });
-
-    goodfellas.on("resume", handleResume);
 
     //Differents addCast() cases
 
     //Adding actors individually
     limitless.addCast(bradleyCooper);
-    limitless.addCast(robertDeNiro, abbieCornish);
+    limitless.addCast([robertDeNiro, abbieCornish]);
 
     //Adding actors with array
     goodfellas.addCast(goodfellasCast);
@@ -157,6 +171,8 @@ window.onload = function() {
     limitless.play();
     backToTheFuture.pause();
     goodfellas.resume();
-    goodfellas.off("resume", handleResume);
-    goodfellas.resume();
+
+    console.log(limitless.cast);
+    console.log(goodfellas.cast);
+    console.log(backToTheFuture.cast);
 }
