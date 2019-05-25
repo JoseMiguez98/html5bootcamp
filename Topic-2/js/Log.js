@@ -1,4 +1,4 @@
-export default class Log {
+class Log {
         
     log(info){
         console.log("Event " + info + " was emitted");

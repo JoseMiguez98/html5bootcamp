@@ -1,7 +1,3 @@
-import Actor from './Actor.js';
-import Log from './Log.js';
-import Movie from './Movie.js';
-
 "use strict";
 
 window.onload = function() {

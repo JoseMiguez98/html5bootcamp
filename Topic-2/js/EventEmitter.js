@@ -1,6 +1,4 @@
-import Log from './Log.js';
-
-export default class EventEmitter {
+class EventEmitter {
     
     constructor() {
         this.listeners = {};

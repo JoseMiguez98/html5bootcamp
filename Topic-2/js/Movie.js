@@ -1,7 +1,4 @@
-import EventEmitter from './EventEmitter.js';
-import Actor from './Actor.js';
-
-export default class Movie extends EventEmitter {
+class Movie extends EventEmitter {
         
     constructor(title, year, duration){
         super();
