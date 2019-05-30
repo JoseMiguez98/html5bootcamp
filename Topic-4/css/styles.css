@@ -1,0 +1,46 @@
+@keyframes fade-in-out {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+
+.container {
+    width: 90%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#txt-label {
+    display: block;
+}
+
+.save-advise, .delete-advise {
+    opacity: 0;
+}
+
+.buttons-list {
+    list-style: none;
+}
+
+.buttons-list li {
+    display: inline;
+}
+
+.button.save {
+    margin: 0 auto;
+    margin-top: 5px;
+}
+
+.fade-in {
+    animation: fade-in-out 6s alternate ease-in-out;
+    -webkit-animation: fade-in-out 6s alternate ease-in-out;
+}
