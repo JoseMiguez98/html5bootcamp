@@ -44,3 +44,7 @@
     animation: fade-in-out 6s alternate ease-in-out;
     -webkit-animation: fade-in-out 6s alternate ease-in-out;
 }
+
+.hover {
+    background: #eee
+}
