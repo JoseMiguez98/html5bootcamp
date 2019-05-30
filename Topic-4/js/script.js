@@ -43,10 +43,12 @@ window.onload = () => {
     const saveButtonElem = document.getElementsByClassName("button save")[0];
     const deleteButtonElem = document.getElementsByClassName("button delete")[0];
     const textAreaElem = document.getElementById("txt-area");
+    const webSocket = new WebSocket("wss://echo.websocket.org/");
+    const webSocketContainerElem = document.getElementsByClassName("webSocket-info-container")[0];
     let db;
     
     
-    //============================= Storage Events ===========================//
+    //============================ Storage Events Handlers ===========================//
     saveButtonElem.onclick = () => {
         const value = textAreaElem.value.trim();
         const saveAdviseElem = document.getElementsByClassName("save-advise")[0];
@@ -100,7 +102,7 @@ window.onload = () => {
     }
     //==============================================================================//
     
-    //=========================== Drag & Drop Events ==============================//
+    //=========================== Drag & Drop Events Handlers ==============================//
     
     //I use dragenter instead of dragover to set class
     //because dragover will set class every time that
@@ -141,5 +143,31 @@ window.onload = () => {
             textAreaElem.value = "Your browser dont support read files features";
         }
         evt.target.classList.remove("hover");
+    }
+
+    //==============================================================================//
+
+    //=========================== WebSocket Events Handlers =======================//
+
+    webSocket.onopen = evt => {
+        const paragraphElem = document.createElement("p");
+        paragraphElem.appendChild(document.createTextNode("Web Socket Connection Opened!"));
+        webSocketContainerElem.appendChild(paragraphElem);
+
+        webSocket.send("Testing Web Socket Connection!");
+    }
+
+    webSocket.onerror = evt => {
+        console.log(evt);
+        const paragraphElem = document.createElement("p");
+        paragraphElem.appendChild(document.createTextNode("An error ocurred opening Web Socket"));
+        paragraphElem.classList.add("error");
+        webSocketContainerElem.appendChild(paragraphElem);
+    }
+
+    webSocket.onmessage = evt => {
+        const paragraphElem = document.createElement("p");
+        paragraphElem.appendChild(document.createTextNode("Message recieved form the Server: " + evt.data));
+        webSocketContainerElem.appendChild(paragraphElem);
     }
 }

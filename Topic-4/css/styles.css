@@ -48,3 +48,7 @@
 .hover {
     background: #eee
 }
+
+.error {
+    color: #e00;
+}
