@@ -26,10 +26,6 @@
             <p><span class="delete-advise">Data erased!</span></p>
         </main>
         
-        <article class="webSocket-info-container">
-        </article>
-        
-        
         <!-- I decided to use <svg> tag because it give you
             the posibility of interact with external css and scripts
             But if you want accesibility and better search engine index
@@ -40,9 +36,17 @@
                 finally opt for svg for better interaction and performance
                 Correct me if i'm wrong -->
                 <figure class="svg-container">
+                    <caption>SVG vector graphic</caption>
                     <svg width="400" height="110">
                         <rect width="300" height="100"/>
                     </svg> 
+                </figure>
+                
+        <article class="webSocket-info-container">
+        </article>
+                
+                <figure class="canvas-container">
+                    <canvas class="myCanvas" width="1000" height="800"></canvas>
                 </figure>
             </section>
             <script src="./js/script.js"></script>
