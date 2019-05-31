@@ -158,7 +158,6 @@ window.onload = () => {
     }
 
     webSocket.onerror = evt => {
-        console.log(evt);
         const paragraphElem = document.createElement("p");
         paragraphElem.appendChild(document.createTextNode("An error ocurred opening Web Socket"));
         paragraphElem.classList.add("error");

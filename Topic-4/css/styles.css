@@ -52,3 +52,13 @@
 .error {
     color: #e00;
 }
+
+svg rect {
+    fill:rgb(0,0,255);
+    stroke-width:3;
+    stroke:rgb(0,0,0);
+}
+
+.webSocket-info-container {
+    height: 80px;
+}
