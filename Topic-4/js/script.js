@@ -11,7 +11,7 @@ window.onload = () => {
     const context = canvas.getContext("2d");
     let db;
     
-  
+    
     // ======================================= Functions ====================================================//
     function addIndexedDBData(value) {
         const data = {"data": value};
@@ -98,7 +98,7 @@ window.onload = () => {
         return Math.floor(Math.random() * rectHeight+1);
     }
     
-
+    
     //Comment this function if you wanna see drawRandom() function in action
     //because the clearRect() sentence clear all the canvas to perform animation
     //and also clean the drawRandom() result, i tried to find a way to show both
@@ -119,7 +119,7 @@ window.onload = () => {
                 rect.posY += 7;
             }
         }
-
+        
         window.requestAnimationFrame( () => {
             animateRectangle(rect ,isGoingDown);
         });
