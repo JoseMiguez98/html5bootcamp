@@ -21,11 +21,11 @@ input[type="number"] {
     width: 100%;
     margin-top: 10px;
     border-radius: 5px;
-    transition: background 2s;
-    -webkit-transition: background 2s;
-    -moz-transition: background 2s;
-    -ms-transition: background 2s;
-    -o-transition: background 2s;
+    transition: background 0.5s;
+    -webkit-transition: background 0.5s;
+    -moz-transition: background 0.5s;
+    -ms-transition: background 0.5s;
+    -o-transition: background 0.5s;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     -ms-border-radius: 5px;

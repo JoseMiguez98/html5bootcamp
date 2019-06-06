@@ -1,35 +1,50 @@
-import React from 'react'
+import React from 'react';
 import MovieRow from './MovieRow';
 
 class MoviesTable extends React.Component {
-
+    
     render() {
-        let movies = this.props.movies;
-        let rows = movies.map( movie => {
-            return <MovieRow
-             name = { movie.name }
-             year = { movie.year }
-             director = { movie.director }
-             genre = { movie.genre } />
+        //If only favourites is checked
+        //filter movies that are user favourites
+        let rows = this.props.moviesById.map( (id) => {
+            if(!this.props.favsOnly || this.props.movies[id].isFavourite) {
+                return <MovieRow
+                name = { this.props.movies[id].name }
+                year = { this.props.movies[id].year }
+                director = { this.props.movies[id].director }
+                genre = { this.props.movies[id].genre }
+                isFavourite = { this.props.movies[id].isFavourite }
+                index = { id }
+                handleFavStarChange = { this.props.handleFavStarChange } />
+            }
+            //I only put this return because the compiler throw me a warning if i don't
+            return null;
         });
-
+        
         return (
-            <table>
-                <caption>User favourite movies!</caption>
-                <thead>
-                    <tr>
+            <div>
+                <input 
+                id="filter-favs"
+                type="checkbox"
+                onChange={ this.props.handleFavsOnlyChange } />
+                <label id="filter-favs-label" htmlFor="filter-favs">Favourites only</label>
+                <table>
+                    <caption>User movies!</caption>
+                    <thead>
+                        <tr>
                         <th>Name</th>
                         <th>Year</th>
                         <th>Director</th>
                         <th>Genre</th>
-                    </tr>
-                </thead>
-                <tbody>
-                   { rows }
-                </tbody>
-            </table>
-        )
+                        </tr>
+                    </thead>
+                    <tbody>
+                        { rows }
+                    </tbody>
+                </table>
+            </div>
+            )
+        }
     }
-}
-
-export default MoviesTable;
+    
+    export default MoviesTable;
