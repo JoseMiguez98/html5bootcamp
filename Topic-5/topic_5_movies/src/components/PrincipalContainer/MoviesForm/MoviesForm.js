@@ -5,7 +5,7 @@ class MoviesForm extends React.Component {
 
     render() {
         return (
-            //I use arrow function becase i need pass a parameter
+            //I use arrow function because i need pass a parameter
             <form onSubmit = { (evt) => {
              evt.preventDefault();
              this.props.handleSubmit(evt) }

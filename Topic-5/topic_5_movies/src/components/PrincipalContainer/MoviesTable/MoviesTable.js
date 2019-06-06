@@ -15,7 +15,8 @@ class MoviesTable extends React.Component {
                 genre = { this.props.movies[id].genre }
                 isFavourite = { this.props.movies[id].isFavourite }
                 index = { id }
-                handleFavStarChange = { this.props.handleFavStarChange } />
+                handleFavStarChange = { this.props.handleFavStarChange }
+                handleDeleteClick = { this.props.handleDeleteClick } />
             }
             //I only put this return because the compiler throw me a warning if i don't
             return null;
@@ -32,10 +33,11 @@ class MoviesTable extends React.Component {
                     <caption>User movies!</caption>
                     <thead>
                         <tr>
-                        <th>Name</th>
-                        <th>Year</th>
-                        <th>Director</th>
-                        <th>Genre</th>
+                            <th></th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Year</th>
+                            <th scope="col">Director</th>
+                            <th scope="col">Genre</th>
                         </tr>
                     </thead>
                     <tbody>

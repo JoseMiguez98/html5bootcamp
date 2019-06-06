@@ -11,14 +11,15 @@ class MovieRow extends React.Component {
                         type="checkbox"
                         id={ "fav-check-" + index } 
                         className="fav-star"
-                        onChange={ () => { this.props.handleFavStarChange(index) } }
+                        onChange={ () => this.props.handleFavStarChange(index)  }
                         checked={ this.props.isFavourite ? "checked" : "" }/>
                     <label htmlFor={"fav-check-" + index} className="fav-star-label"></label>
                 </td>
-                <td>{ this.props.name }</td>
+                <th scope="row">{ this.props.name }</th>
                 <td>{ this.props.year }</td>
                 <td>{ this.props.director }</td>
                 <td>{ this.props.genre }</td>
+                <td><button onClick={ () => this.props.handleDeleteClick(index)}>Delete</button></td>
             </tr>
         );
     }
