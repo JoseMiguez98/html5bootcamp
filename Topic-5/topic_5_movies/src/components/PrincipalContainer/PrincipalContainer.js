@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
 import MoviesForm from './MoviesForm/MoviesForm';
 import MoviesTable from './MoviesTable/MoviesTable';
 import './styles.css'
 
-class PrincipalContainer extends React.Component {
+class PrincipalContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -38,7 +38,7 @@ class PrincipalContainer extends React.Component {
                 }
             },
             moviesById: ["Limitless", "Spiderman", "Goodfellas", "Glass"],
-
+            favMoviesId: ["Limitless", "Spiderman", "Goodfellas"],
             favsOnly: false
         }
 
@@ -48,11 +48,36 @@ class PrincipalContainer extends React.Component {
         this.handleDeleteClick = this.handleDeleteClick.bind(this);
     }
 
-    handleFavStarChange(index) {
-        const movies = this.state.movies;
-        movies[index].isFavourite = !movies[index].isFavourite;
+    handleFavStarChange(evt) {
+        const index = evt.target.dataset.value;
+        //I cache check value here because evt.target is undefinded
+        //inside setState() callback function
+        const checked = evt.target.checked;
+        //I toggle ifFavourite outside of new state object
+        //because the way you give me in feedback dont work
+        //and have no sense, you are adding a boolean as a
+        //new key on the movies object, correct me if i'm wrong.
+        this.setState( prevState => {
+            prevState.movies[index].isFavourite = !prevState.movies[index].isFavourite;
+            let favMoviesId = [...prevState.favMoviesId];
+            //Check if user wants add or remove movie from favs
+            //is better to performance ask for the checkbox value
+            //than iterate favs index and see if i need remove or push
+            //new index each time that the user click a star.
+            if(!checked) {
+                favMoviesId = favMoviesId.filter(movie => {
+                    return movie !== index;
+                });
+            } else {
+                favMoviesId.push(index);
+            }
 
-        this.setState({ movies });
+            return { 
+                movies: {...prevState.movies},
+                favMoviesId
+                
+            };     
+        });
     }
     
     handleFavsOnlyChange() {
@@ -62,16 +87,17 @@ class PrincipalContainer extends React.Component {
     }
 
     handleFormSubmit(evt) {
+        evt.preventDefault();
         const data = new FormData(evt.target);
 
         //Check if form is not empty
         if(data.get("name") && data.get("year") && data.get("director") && data.get("genre")) {
-                const indexList = this.state.moviesById;
+                const {moviesById: indexList} = this.state;
 
                 //Check if movie exists, only to not admit repeated.
                 if(!indexList.includes(data.get("name"))){
 
-                let movies = this.state.movies;
+                let { movies }= this.state;
 
                 movies[data.get("name")] = {
                     name : data.get("name"),
@@ -87,18 +113,19 @@ class PrincipalContainer extends React.Component {
                     movies,
                     moviesById: indexList
                 });
+            } else {
+                alert("The movie is already in the list");
             }
-        } else {
-            alert("The movie is already in the list");
         }
     }
 
-    handleDeleteClick(index) {
+    handleDeleteClick(evt) {
+        const index = evt.target.dataset.value;
         const indexList = this.state.moviesById.filter(movie => {
             return movie !== index;
         });
 
-        let movies = this.state.movies;
+        let { movies }= this.state;
         delete movies.index;
 
         this.setState({
@@ -112,14 +139,14 @@ class PrincipalContainer extends React.Component {
         return (
             <div className="principal-container">
                 <MoviesForm
-                    handleSubmit= { this.handleFormSubmit }/>
+                    handleSubmit={ this.handleFormSubmit }/>
                 <MoviesTable 
                     movies={ this.state.movies }
                     moviesById={ this.state.moviesById }
                     favsOnly={ this.state.favsOnly }
-                    handleFavStarChange= { this.handleFavStarChange }
-                    handleFavsOnlyChange= { this.handleFavsOnlyChange }
-                    handleDeleteClick= { this.handleDeleteClick } />
+                    handleFavStarChange={ this.handleFavStarChange }
+                    handleFavsOnlyChange={ this.handleFavsOnlyChange }
+                    handleDeleteClick={ this.handleDeleteClick } />
             </div>
         );
     }
