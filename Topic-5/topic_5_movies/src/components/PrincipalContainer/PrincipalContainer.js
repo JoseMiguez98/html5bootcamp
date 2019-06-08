@@ -13,28 +13,32 @@ class PrincipalContainer extends Component {
                     year: "2009",
                     director: "Tarantino",
                     genre: "Drama",
-                    isFavourite: true
+                    isFavourite: true,
+                    editable: false
                 },
                 Spiderman: {
                     name: "Spiderman",
                     year: "2003",
                     director: "Jose",
                     genre: "Acción",
-                    isFavourite: true
+                    isFavourite: true,
+                    editable: false
                 },
                 Goodfellas: {
                     name: "Goodfellas",
                     year: "1990",
                     director: "Scorcesse",
                     genre: "Drama",
-                    isFavourite: true
+                    isFavourite: true,
+                    editable: false
                 },
                 Glass: {
                     name: "Glass",
                     year: "2019",
                     director: "Shamalyan",
                     genre: "Acción",
-                    isFavourite: false
+                    isFavourite: false,
+                    editable: false
                 }
             },
             moviesById: ["Limitless", "Spiderman", "Goodfellas", "Glass"],
@@ -46,19 +50,16 @@ class PrincipalContainer extends Component {
         this.handleFavsOnlyChange = this.handleFavsOnlyChange.bind(this);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.handleDeleteClick = this.handleDeleteClick.bind(this);
+        this.handleRowUpdate = this.handleRowUpdate.bind(this);
+        this.handleEditClick = this.handleEditClick.bind(this);
     }
 
     handleFavStarChange(evt) {
         const index = evt.target.dataset.value;
         //I cache check value here because evt.target is undefinded
-        //inside setState() callback function
+        //inside setState() callback
         const checked = evt.target.checked;
-        //I toggle ifFavourite outside of new state object
-        //because the way you give me in feedback dont work
-        //and have no sense, you are adding a boolean as a
-        //new key on the movies object, correct me if i'm wrong.
         this.setState( prevState => {
-            prevState.movies[index].isFavourite = !prevState.movies[index].isFavourite;
             let favMoviesId = [...prevState.favMoviesId];
             //Check if user wants add or remove movie from favs
             //is better to performance ask for the checkbox value
@@ -73,7 +74,7 @@ class PrincipalContainer extends Component {
             }
 
             return { 
-                movies: {...prevState.movies},
+                movies: {...prevState.movies, ...prevState.movies[index].isFavourite = !prevState.movies[index].isFavourite},
                 favMoviesId
                 
             };     
@@ -135,6 +136,29 @@ class PrincipalContainer extends Component {
 
     }
 
+    handleRowUpdate(evt){
+        const index = evt.target.dataset.index;
+        const key = evt.target.dataset.key;
+        const newValue = evt.target.value;
+
+        //If is updating year check that is not
+        //out of range
+        if(key !== "year" || newValue >= 1900 & newValue <= 2020){
+            this.setState(prevState => {
+                prevState.movies[index][key] = newValue
+                return{ movies: {...prevState.movies} };
+            });
+        }
+    }
+
+    handleEditClick(evt) {
+        const index = evt.target.dataset.value;
+
+        this.setState(prevState => {
+            return {movies: {...prevState.movies, ...prevState.movies[index].editable = !prevState.movies[index].editable}}
+        });
+    }
+
     render() {
         return (
             <div className="principal-container">
@@ -146,7 +170,9 @@ class PrincipalContainer extends Component {
                     favsOnly={ this.state.favsOnly }
                     handleFavStarChange={ this.handleFavStarChange }
                     handleFavsOnlyChange={ this.handleFavsOnlyChange }
-                    handleDeleteClick={ this.handleDeleteClick } />
+                    handleDeleteClick={ this.handleDeleteClick }
+                    handleRowUpdate={ this.handleRowUpdate }
+                    handleEditClick={ this.handleEditClick } />
             </div>
         );
     }
