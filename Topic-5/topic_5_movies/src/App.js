@@ -1,5 +1,5 @@
 import React from 'react';
-import PrincipalContainer from './components/PrincipalContainer/PrincipalContainer';
+import PrincipalContainer from './components/PrincipalContainer';
 import { Provider } from 'react-redux';
 import { store } from './redux/store'
 
