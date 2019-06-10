@@ -1,0 +1,1 @@
+export const TOGGLE_VIEW_FILTER = "TOGGLE_FAV_FILTER";

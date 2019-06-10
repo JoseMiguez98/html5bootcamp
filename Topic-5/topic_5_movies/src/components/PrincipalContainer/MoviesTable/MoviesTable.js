@@ -10,7 +10,7 @@ const MovieRow = props => {
                     type="checkbox"
                     id={ "fav-check-" + index } 
                     className="fav-star"
-                    onChange={ props.handleFavStarChange }
+                    onChange={ props.toggleFav }
                     checked={ isFavourite ? "checked" : "" }
                     data-value={ index } />
                 <label htmlFor={"fav-check-" + index} className="fav-star-label"></label>
@@ -20,7 +20,7 @@ const MovieRow = props => {
                 type="text" 
                 defaultValue = { name }
                 readOnly={ !editable }
-                onChange={ props.handleRowUpdate }
+                onChange={ props.updateMovie }
                 data-index={ index }
                 data-key="name"
                 size="10" />
@@ -30,7 +30,7 @@ const MovieRow = props => {
                     type="number"
                     defaultValue={ year }
                     readOnly={ !editable }
-                    onChange={ props.handleRowUpdate }
+                    onChange={ props.updateMovie }
                     data-index={ index }
                     data-key="year"
                     min="1900"
@@ -41,7 +41,7 @@ const MovieRow = props => {
                     type="text"
                     defaultValue={ director }
                     readOnly={ !editable }
-                    onChange={ props.handleRowUpdate }
+                    onChange={ props.updateMovie }
                     data-index={ index }
                     data-key="director"
                     size="10" />
@@ -51,19 +51,19 @@ const MovieRow = props => {
                     type="text"
                     defaultValue={ genre }
                     readOnly={ !editable }
-                    onChange={ props.handleRowUpdate }
+                    onChange={ props.updateMovie }
                     data-index={ index }
                     data-key="genre"
                     size="10" />
             </td>
             <td>
                 <button 
-                onClick={ props.handleDeleteClick }
+                onClick={ props.deleteMovie }
                 data-value={ index }>Delete</button>
             </td>
             <td>
                 <button 
-                onClick={ props.handleEditClick }
+                onClick={ props.toggleUpdate }
                 data-value={ index }>{editable ? "Save" : "Edit"}</button>
             </td>
     </tr> );
@@ -81,7 +81,7 @@ class MoviesTable extends Component {
                 <input 
                 id="filter-favs"
                 type="checkbox"
-                onChange={ this.props.handleFavsOnlyChange } />
+                onChange={ this.props.toggleViewFilter } />
                 <label id="filter-favs-label" htmlFor="filter-favs">Favourites only</label>
                 <table>
                     <caption>User movies!</caption>
@@ -106,10 +106,10 @@ class MoviesTable extends Component {
                             isFavourite={ movies[id].isFavourite }
                             editable={ movies[id].editable }
                             index={ id }
-                            handleFavStarChange={ this.props.handleFavStarChange }
-                            handleDeleteClick={ this.props.handleDeleteClick }
-                            handleRowUpdate={ this.props.handleRowUpdate }
-                            handleEditClick={ this.props.handleEditClick } />
+                            toggleFav={ this.props.toggleFav }
+                            deleteMovie={ this.props.deleteMovie }
+                            updateMovie={ this.props.updateMovie }
+                            toggleUpdate={ this.props.toggleUpdate } />
                         }
                         //I only put this return because the compiler throw me a warning if i don't
                         return null; }) }
